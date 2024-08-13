@@ -18,12 +18,10 @@ export default function RedirectPage({ params }: RedirectPageProps) {
 
   useEffect(() => {
     const fetchUrl = async () => {
-      console.log('fetching');
-      console.log(supabase);
       const { data, error } = await supabase
         .from('links')
         .select('original_url')
-        .eq('short_url', short_url)
+        .filter('short_url', 'eq', short_url)
         .single();
 
       console.log('error:', error);
