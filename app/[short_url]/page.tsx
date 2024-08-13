@@ -22,7 +22,7 @@ export default function RedirectPage({ params }: RedirectPageProps) {
         .from('links')
         .select('original_url')
         .eq('short_url', short_url)
-        .maybeSingle();
+        .single();
 
       // if (data) console.log(data[0].original_url);
       console.log(data);
