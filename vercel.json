@@ -5,7 +5,7 @@
       "destination": "/api/$1"
     },
     {
-      "source": "/(.*)",
+      "source": "/(?!api|supabase.co)(.*)",
       "destination": "/index.html"
     }
   ]
