@@ -34,7 +34,8 @@ export default function SignupPage() {
       toast({
         variant: 'success',
         title: 'Successful Log In',
-        description: "You'd be redirected to the homepage in a few seconds",
+        description:
+          'You&apos;d be redirected to the homepage in a few seconds',
       });
       router.push('/');
     } else if (formState.message === 'error') {
@@ -45,11 +46,11 @@ export default function SignupPage() {
           variant: 'error',
           title: errorMessage,
           description:
-            "Please confirm that you're logging in with the right credentials",
+            'Please confirm that you&apos;re logging in with the right credentials',
         });
       }
     }
-  }, [formState]);
+  }, [formState, router, toast]);
 
   return (
     <main className="min-h-[100vh] flex flex-col items-center justify-center">
