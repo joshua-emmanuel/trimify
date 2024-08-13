@@ -24,9 +24,6 @@ export default function RedirectPage({ params }: RedirectPageProps) {
         .eq('short_url', short_url)
         .single();
 
-      // if (data) console.log(data[0].original_url);
-      console.log(data);
-
       if (error || !data) {
         router.push('/');
       } else {
