@@ -36,3 +36,6 @@ yarn-error.log*
 next-env.d.ts
 
 misc
+data.json
+app/api/route.ts
+app/api/users
