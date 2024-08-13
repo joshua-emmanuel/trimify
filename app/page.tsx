@@ -1,7 +1,5 @@
-export default function Home() {
-  return (
-    <main className="bg-white">
-      <p>Home</p>
-    </main>
-  );
+import HomeServer from '@/app/home-server';
+
+export default function HomePage() {
+  return <HomeServer />;
 }
