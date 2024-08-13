@@ -42,7 +42,7 @@ export default function SignupPage() {
         description: 'Please try again later',
       });
     }
-  }, [formState]);
+  }, [formState, toast]);
 
   return (
     <main className="min-h-[100vh] flex flex-col items-center justify-center">

@@ -34,8 +34,7 @@ export default function SignupPage() {
       toast({
         variant: 'success',
         title: 'Successful Log In',
-        description:
-          'You&apos;d be redirected to the homepage in a few seconds',
+        description: 'You would be redirected to the homepage in a few seconds',
       });
       router.push('/');
     } else if (formState.message === 'error') {
@@ -46,7 +45,7 @@ export default function SignupPage() {
           variant: 'error',
           title: errorMessage,
           description:
-            'Please confirm that you&apos;re logging in with the right credentials',
+            'Please confirm that you are logging in with the right credentials',
         });
       }
     }
@@ -78,7 +77,7 @@ export default function SignupPage() {
           <CardFooter className="flex flex-col items-start">
             <Button>Log In</Button>
             <p className="text-sm mt-2">
-              <span>Don't have an account?</span>
+              <span>Don&apos;t have an account?</span>
               <Link className="underline font-bold" href="/signup">
                 Sign Up
               </Link>
