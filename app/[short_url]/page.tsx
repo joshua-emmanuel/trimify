@@ -21,16 +21,16 @@ export default function RedirectPage({ params }: RedirectPageProps) {
       const { data, error } = await supabase
         .from('links')
         .select('original_url')
-        .filter('short_url', 'eq', short_url)
-        .single();
+        .eq('short_url', short_url);
+      // .single();
 
-      console.log('error:', error);
+      if (data) console.log(data[0].original_url);
 
-      if (error || !data) {
-        router.push('/');
-      } else {
-        window.location.href = data.original_url;
-      }
+      // if (error || !data) {
+      //   router.push('/');
+      // } else {
+      //   window.location.href = data.original_url;
+      // }
     };
 
     fetchUrl();
