@@ -3,7 +3,6 @@
 import { logout } from '@/app/(form)/form-actions';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
-import { AuthError } from '@supabase/supabase-js';
 
 type homeClientProps = {
   user: object | null;
