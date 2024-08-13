@@ -15,6 +15,7 @@ import { useFormState } from 'react-dom';
 import Link from 'next/link';
 import { useEffect, useRef } from 'react';
 import { useToast } from '@/components/ui/use-toast';
+import { redirect } from 'next/navigation';
 
 export default function SignupPage() {
   const [formState, formAction] = useFormState(signup, {
@@ -34,6 +35,7 @@ export default function SignupPage() {
         title: 'Successful Sign Up',
         description: 'Please check your inbox for a confirmation email',
       });
+      redirect('/login');
     } else if (formState.message === 'error') {
       console.log(formState.error);
       toast({

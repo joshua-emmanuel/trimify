@@ -47,6 +47,11 @@ export default function SignupPage() {
           description:
             'Please confirm that you are logging in with the right credentials',
         });
+      } else if (errorMessage === 'Email not confirmed') {
+        toast({
+          title: errorMessage,
+          description: 'Please check your inbox for a confirmation email',
+        });
       }
     }
   }, [formState, router, toast]);
