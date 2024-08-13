@@ -77,7 +77,7 @@ export default function SignupPage() {
           <CardFooter className="flex flex-col items-start">
             <Button>Log In</Button>
             <p className="text-sm mt-2">
-              Don't have an account?{' '}
+              <span>Don't have an account?</span>
               <Link className="underline font-bold" href="/signup">
                 Sign Up
               </Link>
