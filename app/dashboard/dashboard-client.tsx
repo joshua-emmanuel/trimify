@@ -85,7 +85,7 @@ export default function DashboardClient({ userEmail }: DashboardClientProps) {
               </DropdownMenuTrigger>
               <DropdownMenuContent className="p-2" align="end">
                 <DropdownMenuLabel>
-                  {userEmail?.split('@')[0]}'s dashboard
+                  {userEmail?.split('@')[0]}&apos;s dashboard
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <div className="p-2">
