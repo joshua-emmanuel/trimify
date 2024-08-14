@@ -72,8 +72,12 @@ export default function LogInPage() {
 
   return (
     <main className="min-h-[100vh] flex flex-col items-center justify-center">
-      <form action={formAction} ref={formRef}>
-        <Card className="sm:w-[350px] w-100">
+      <form
+        className="min-[425px]:w-[350px] w-[90%]"
+        action={formAction}
+        ref={formRef}
+      >
+        <Card>
           <CardHeader>
             <CardTitle className="font-extrabold text-3xl">Log In</CardTitle>
           </CardHeader>
