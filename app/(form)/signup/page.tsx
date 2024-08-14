@@ -20,7 +20,11 @@ import { redirect } from 'next/navigation';
 function SignUpButton() {
   const { pending } = useFormStatus();
   return (
-    <Button type="submit" disabled={pending}>
+    <Button
+      type="submit"
+      className="disabled:cursor-not-allowed w-full"
+      disabled={pending}
+    >
       {pending ? 'Signing up...' : 'Sign Up'}
     </Button>
   );
@@ -82,7 +86,10 @@ export default function SignUpPage() {
             <SignUpButton />
             <p className="text-sm mt-2">
               Already have an account?{' '}
-              <Link className="underline font-bold" href="/login">
+              <Link
+                className="underline font-bold hover:no-underline"
+                href="/login"
+              >
                 Log In
               </Link>
             </p>

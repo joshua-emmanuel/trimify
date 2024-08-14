@@ -22,7 +22,7 @@ function LogInButton() {
   return (
     <Button
       type="submit"
-      className="disabled:cursor-not-allowed"
+      className="disabled:cursor-not-allowed w-full"
       disabled={pending}
     >
       {pending ? 'Logging in...' : 'Log In'}
@@ -96,8 +96,11 @@ export default function LogInPage() {
           <CardFooter className="flex flex-col items-start">
             <LogInButton />
             <p className="text-sm mt-2">
-              <span>Don&apos;t have an account?</span>
-              <Link className="underline font-bold" href="/signup">
+              <span>Don&apos;t have an account? </span>
+              <Link
+                className="underline font-bold hover:no-underline"
+                href="/signup"
+              >
                 Sign Up
               </Link>
             </p>
