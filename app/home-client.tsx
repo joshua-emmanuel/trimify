@@ -46,7 +46,7 @@ export default function HomeClient({ user }: homeClientProps) {
       <header className="flex justify-between items-center my-8 relative">
         <Link
           href="/"
-          className="flex items-center gap-2 font-black text-slate-900 md:text-2xl text-xl tracking-tight dark:text-white"
+          className="flex items-center gap-2 font-black text-slate-900 text-2xl tracking-tight dark:text-white"
         >
           <ScissorsLineDashed className="h-6 w-6" />
           <span className="">Scissors</span>

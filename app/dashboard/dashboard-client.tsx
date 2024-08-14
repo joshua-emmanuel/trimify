@@ -59,14 +59,14 @@ export default function DashboardClient({ userEmail }: DashboardClientProps) {
           <nav className="flex gap-6 text-sm font-medium items-center md:gap-5 md:text-sm lg:gap-6 mr-auto justify-between">
             <Link
               href="/"
-              className="flex items-center gap-2 font-black text-slate-900 md:text-2xl text-xl tracking-tight dark:text-white"
+              className="flex items-center justify-center gap-2 font-black text-slate-900 text-2xl tracking-tight dark:text-white"
             >
               <ScissorsLineDashed className="h-6 w-6" />
               <span className="">Scissors</span>
             </Link>
             <Link
               href="/dashboard"
-              className="text-foreground transition-colors hover:text-foreground"
+              className="text-foreground transition-colors hover:text-foreground mt-1"
             >
               Dashboard
             </Link>
