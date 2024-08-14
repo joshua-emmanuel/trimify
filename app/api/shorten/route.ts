@@ -4,14 +4,10 @@ import { createClient } from '@/utils/supabase/server';
 async function logLinkVisit(urlData: any, ipAddress: any) {
   const supabase = createClient();
 
-  const locationData = await getGeoLocation(ipAddress);
-
   await supabase
     .from('links')
     .update({
       last_accessed_ip: ipAddress,
-      last_accessed_country: locationData?.country,
-      last_accessed_city: locationData?.city,
       click_count: urlData.click_count + 1,
       last_accessed_at: new Date().toLocaleTimeString('en-US', {
         day: 'numeric',
@@ -20,17 +16,6 @@ async function logLinkVisit(urlData: any, ipAddress: any) {
       }),
     })
     .eq('short_url', urlData.short_url);
-}
-
-async function getGeoLocation(ipAddress: any) {
-  try {
-    const response = await fetch(`https://ipapi.co/${ipAddress}/json/`);
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error('Error fetching geolocation:', error);
-    return null;
-  }
 }
 
 export async function GET(request: Request) {
