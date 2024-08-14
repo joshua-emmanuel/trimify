@@ -1,11 +1,15 @@
 import { createClient } from '@/utils/supabase/server';
-import DashboardClient from '@/app/dashboard/dashboard-client';
+import DashboardLayout from '@/app/dashboard/dashboard-layout';
 
-export default async function DashboardServer() {
+export default async function DashboardServer({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const supabase = createClient();
   const { data } = await supabase.auth.getUser();
 
   const userEmail = data?.user?.email as String | null;
 
-  return <DashboardClient userEmail={userEmail} />;
+  return <DashboardLayout userEmail={userEmail} children={children} />;
 }
