@@ -10,8 +10,8 @@ async function logLinkVisit(urlData: any, ipAddress: any) {
     .from('links')
     .update({
       last_accessed_ip: ipAddress,
-      last_accessed_country: locationData?.country,
-      last_accessed_city: locationData?.city,
+      last_accessed_country: locationData.country,
+      last_accessed_city: locationData.city,
       click_count: urlData.click_count + 1,
       last_accessed_at: new Date().toLocaleTimeString('en-US', {
         day: 'numeric',
