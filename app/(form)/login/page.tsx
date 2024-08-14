@@ -11,13 +11,26 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@radix-ui/react-label';
 import { Button } from '@/components/ui/button';
 import { login } from '@/app/(form)/form-actions';
-import { useFormState } from 'react-dom';
+import { useFormState, useFormStatus } from 'react-dom';
 import Link from 'next/link';
 import { useEffect, useRef } from 'react';
 import { useToast } from '@/components/ui/use-toast';
 import { useRouter } from 'next/navigation';
 
-export default function SignupPage() {
+function LogInButton() {
+  const { pending } = useFormStatus();
+  return (
+    <Button
+      type="submit"
+      className="disabled:cursor-not-allowed"
+      disabled={pending}
+    >
+      {pending ? 'Logging in...' : 'Log In'}
+    </Button>
+  );
+}
+
+export default function LogInPage() {
   const [formState, formAction] = useFormState(login, {
     message: '',
     error: null,
@@ -34,9 +47,10 @@ export default function SignupPage() {
       toast({
         variant: 'success',
         title: 'Successful Log In',
-        description: 'You would be redirected to the homepage in a few seconds',
+        description:
+          'You would be redirected to your dashboard in a few seconds',
       });
-      router.push('/');
+      router.push('/dashboard');
     } else if (formState.message === 'error') {
       console.log(formState.error);
       const errorMessage = formState.error?.split('AuthApiError: ')[1];
@@ -80,7 +94,7 @@ export default function SignupPage() {
             </div>
           </CardContent>
           <CardFooter className="flex flex-col items-start">
-            <Button>Log In</Button>
+            <LogInButton />
             <p className="text-sm mt-2">
               <span>Don&apos;t have an account?</span>
               <Link className="underline font-bold" href="/signup">

@@ -11,13 +11,22 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@radix-ui/react-label';
 import { Button } from '@/components/ui/button';
 import { signup } from '@/app/(form)/form-actions';
-import { useFormState } from 'react-dom';
+import { useFormState, useFormStatus } from 'react-dom';
 import Link from 'next/link';
 import { useEffect, useRef } from 'react';
 import { useToast } from '@/components/ui/use-toast';
 import { redirect } from 'next/navigation';
 
-export default function SignupPage() {
+function SignUpButton() {
+  const { pending } = useFormStatus();
+  return (
+    <Button type="submit" disabled={pending}>
+      {pending ? 'Signing up...' : 'Sign Up'}
+    </Button>
+  );
+}
+
+export default function SignUpPage() {
   const [formState, formAction] = useFormState(signup, {
     message: '',
     error: null,
@@ -70,7 +79,7 @@ export default function SignupPage() {
             </div>
           </CardContent>
           <CardFooter className="flex flex-col items-start">
-            <Button>Sign Up</Button>
+            <SignUpButton />
             <p className="text-sm mt-2">
               Already have an account?{' '}
               <Link className="underline font-bold" href="/login">
