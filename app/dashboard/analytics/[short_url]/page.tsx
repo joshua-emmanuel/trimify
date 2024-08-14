@@ -18,11 +18,17 @@ interface LinkDetailsProps {
   last_accessed_ip?: string;
 }
 
+interface LocationProps {
+  country_name?: string;
+  city?: string;
+}
+
 export default function DashboardAnalytics() {
   const params = useParams();
   const { short_url } = params;
 
   const [linkDetails, setLinkDetails] = useState<LinkDetailsProps | null>(null);
+  const [location, setLocation] = useState<LocationProps | null>(null);
 
   useEffect(() => {
     const fetchLinks = async () => {
@@ -45,14 +51,30 @@ export default function DashboardAnalytics() {
     fetchLinks();
   }, [short_url]);
 
+  useEffect(() => {
+    async function getGeoLocation(ipAddress: any) {
+      try {
+        const response = await fetch(`https://ipapi.co/${ipAddress}/json/`);
+        const data = await response.json();
+        console.log(data);
+        setLocation(data);
+      } catch (error) {
+        console.error('Error fetching geolocation:', error);
+        return null;
+      }
+    }
+
+    getGeoLocation(linkDetails?.last_accessed_ip);
+  }, [linkDetails]);
+
   return (
     <div>
       <h1>Your Shortened Link</h1>
       <p>Click Count: {linkDetails?.click_count}</p>
       <p>Short Url: {linkDetails?.short_url}</p>
       <p>Last Accessed At: {linkDetails?.last_accessed_at}</p>
-      <p>Last Accessed City: {linkDetails?.last_accessed_city}</p>
-      <p>Last Accessed Country: {linkDetails?.last_accessed_country}</p>
+      <p>Last Accessed City: {location?.city}</p>
+      <p>Last Accessed Country: {location?.country_name}</p>
       <p>Last Accessed Ip: {linkDetails?.last_accessed_ip}</p>
     </div>
   );
