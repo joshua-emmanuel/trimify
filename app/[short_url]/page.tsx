@@ -2,14 +2,15 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { createClient } from '@/utils/supabase/client';
-
-const supabase = createClient();
 
 interface RedirectPageProps {
   params: {
     short_url: string;
   };
+}
+
+interface UrlProps {
+  original_url: string;
 }
 
 export default function RedirectPage({ params }: RedirectPageProps) {
@@ -18,16 +19,12 @@ export default function RedirectPage({ params }: RedirectPageProps) {
 
   useEffect(() => {
     const fetchUrl = async () => {
-      const { data, error } = await supabase
-        .from('links')
-        .select('original_url')
-        .eq('short_url', short_url)
-        .single();
-
-      if (error || !data) {
-        router.push('/');
-      } else {
+      try {
+        const response = await fetch(`/api/shorten?short_url=${short_url}`);
+        const data: UrlProps = await response.json();
         window.location.href = data.original_url;
+      } catch (error) {
+        router.push('/');
       }
     };
 
