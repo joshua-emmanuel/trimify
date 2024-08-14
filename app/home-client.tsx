@@ -3,6 +3,7 @@
 // import { logout } from '@/app/(form)/form-actions';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { ScissorsLineDashed } from 'lucide-react';
 import Link from 'next/link';
 import { FormEvent, useRef, useState } from 'react';
 
@@ -43,9 +44,13 @@ export default function HomeClient({ user }: homeClientProps) {
   return (
     <div className="xl:container mx-auto px-4">
       <header className="flex justify-between items-center my-8 relative">
-        <p className="text-slate-900 font-black text-2xl tracking-tight dark:text-white">
-          Scissors
-        </p>
+        <Link
+          href="/"
+          className="flex items-center gap-2 font-black text-slate-900 md:text-2xl text-xl tracking-tight dark:text-white"
+        >
+          <ScissorsLineDashed className="h-6 w-6" />
+          <span className="">Scissors</span>
+        </Link>
         {user ? (
           <Link
             className="h-10 px-4 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 dark:ring-offset-slate-950 dark:focus-visible:ring-slate-300 bg-slate-900 text-slate-50 hover:bg-slate-900/90 dark:bg-slate-50 dark:text-slate-900 dark:hover:bg-slate-50/90"
@@ -105,7 +110,7 @@ export default function HomeClient({ user }: homeClientProps) {
               <p className="text-center text-slate-900  mt-4">
                 Your short URL:{' '}
                 <Link
-                  className="font-bold hover:underline"
+                  className="font-bold underline hover:no-underline"
                   href={`/${shortUrl}`}
                 >{`${siteUrl}/${shortUrl}`}</Link>
               </p>
