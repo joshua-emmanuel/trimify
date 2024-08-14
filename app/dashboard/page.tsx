@@ -53,9 +53,11 @@ export default function DashboardPage() {
         <Card className="xl:col-span-2" x-chunk="dashboard-01-chunk-4">
           <CardHeader className="flex flex-row items-center">
             <div className="grid gap-2">
-              <CardTitle>Your Links</CardTitle>
+              <CardTitle className="text-lg md:text-2xl">Your Links</CardTitle>
             </div>
-            <Button className="ml-auto gap-1">Shorten New Link</Button>
+            <Button className="ml-auto gap-1 text-xs md:text-sm">
+              Shorten New Link
+            </Button>
           </CardHeader>
           {loading ? (
             <Loading />

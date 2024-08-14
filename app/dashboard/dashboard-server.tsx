@@ -11,5 +11,5 @@ export default async function DashboardServer({
 
   const userEmail = data?.user?.email as String | null;
 
-  return <DashboardLayout userEmail={userEmail} children={children} />;
+  return <DashboardLayout userEmail={userEmail}>{children}</DashboardLayout>;
 }

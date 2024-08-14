@@ -5,5 +5,5 @@ export default function DashboardLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <DashboardServer children={children} />;
+  return <DashboardServer>{children}</DashboardServer>;
 }

@@ -22,7 +22,7 @@ export default function ShortLinkCard({ link }: { link: LinkProps }) {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="text-md font-bold mb-2">
+        <div className="text-sm sm:text-base font-bold mb-2">
           {`${siteUrl}/${link.short_url}`}
         </div>
         <p className="text-xs text-muted-foreground mb-3">

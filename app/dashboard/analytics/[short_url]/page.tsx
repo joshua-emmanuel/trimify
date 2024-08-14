@@ -43,7 +43,7 @@ export default function DashboardAnalytics() {
     };
 
     fetchLinks();
-  }, []);
+  }, [short_url]);
 
   return (
     <div>
