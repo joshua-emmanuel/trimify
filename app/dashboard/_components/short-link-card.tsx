@@ -15,7 +15,7 @@ export default function ShortLinkCard({ link }: { link: LinkProps }) {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
   return (
-    <Card>
+    <Card className="overflow-hidden">
       <CardHeader className="pb-2">
         <CardTitle className="text-sm text-slate-500 font-medium">
           {link.title || 'Short Link'}
