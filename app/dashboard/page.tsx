@@ -5,8 +5,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { createClient } from '@/utils/supabase/client';
 import { useEffect, useState } from 'react';
-import Loading from '@/app/dashboard/loading';
 import ShortLinkCard from '@/app/dashboard/_components/short-link-card';
+import { LinkCardsSkeleton } from '@/components/ui/loading-skeletons';
 
 interface Link {
   title: string;
@@ -20,8 +20,6 @@ interface Link {
 export default function DashboardPage() {
   const [links, setLinks] = useState<Link[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
   useEffect(() => {
     const fetchLinks = async () => {
@@ -48,9 +46,9 @@ export default function DashboardPage() {
     fetchLinks();
   }, []);
   return (
-    <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8 2xl:container">
+    <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8 2xl:container bg-gray-50">
       <div className="grid gap-4 md:gap-8">
-        <Card className="xl:col-span-2" x-chunk="dashboard-01-chunk-4">
+        <Card className="xl:col-span-2">
           <CardHeader className="flex flex-row items-center">
             <div className="grid gap-2">
               <CardTitle className="text-lg md:text-2xl">Your Links</CardTitle>
@@ -59,22 +57,24 @@ export default function DashboardPage() {
               Shorten New Link
             </Button>
           </CardHeader>
-          {loading ? (
-            <Loading />
-          ) : links.length > 0 ? (
-            <CardContent>
+          <CardContent>
+            {loading ? (
+              <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3 xl:grid-cols-4 mt-4">
+                <LinkCardsSkeleton />
+              </div>
+            ) : links.length > 0 ? (
               <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3 xl:grid-cols-4 mt-4">
                 {links.length > 0 &&
                   links.map((link) => (
                     <ShortLinkCard key={link.id} link={link} />
                   ))}
               </div>
-            </CardContent>
-          ) : (
-            <div>
-              <p>No Links found</p>
-            </div>
-          )}
+            ) : (
+              <div className="flex flex-col items-center justify-center my-10">
+                <p>No Links found</p>
+              </div>
+            )}
+          </CardContent>
         </Card>
       </div>
     </main>

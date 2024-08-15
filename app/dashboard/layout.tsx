@@ -1,6 +1,6 @@
 import DashboardServer from '@/app/dashboard/dashboard-server';
 
-export default function DashboardLayout({
+export default function DashboardRootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

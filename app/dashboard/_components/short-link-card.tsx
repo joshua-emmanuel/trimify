@@ -17,15 +17,15 @@ export default function ShortLinkCard({ link }: { link: LinkProps }) {
   return (
     <Card>
       <CardHeader className="pb-2">
-        <CardTitle className="text-sm font-medium">
+        <CardTitle className="text-sm text-slate-500 font-medium">
           {link.title || 'Link Name'}
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="text-sm sm:text-base font-bold mb-2">
+        <p className="text-sm sm:text-xl text-pretty break-words whitespace-normal max-w-[100%] font-bold mb-2">
           {`${siteUrl}/${link.short_url}`}
-        </div>
-        <p className="text-xs text-muted-foreground mb-3">
+        </p>
+        <p className="text-xs text-slate-500 mb-3 truncate">
           Orginal Url: {`https://${link.original_url}`}
         </p>
         <Link
@@ -33,7 +33,7 @@ export default function ShortLinkCard({ link }: { link: LinkProps }) {
           href={`/dashboard/analytics/${link.short_url}`}
         >
           <span>View Analytics</span>
-          <LinkIcon className="h-4 w-4 ml-2 text-muted-foreground" />
+          <LinkIcon className="h-4 w-4 ml-2" />
         </Link>
       </CardContent>
     </Card>
