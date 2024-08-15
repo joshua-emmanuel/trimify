@@ -100,7 +100,7 @@ export default function DashboardAnalytics() {
           </div>
         ) : (
           <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
-            {linkDetails?.click_count && (
+            {linkDetails?.click_count !== null && (
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
                   <CardTitle className="text-sm font-medium text-slate-600">
