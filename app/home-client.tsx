@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { FormEvent, useRef, useState } from 'react';
 import { Copy } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
+import { Label } from '@radix-ui/react-label';
 
 type homeClientProps = {
   user: object | null;
@@ -145,17 +146,24 @@ export default function HomeClient({ user }: homeClientProps) {
               </Button>
             </form>
             {shortUrl && (
-              <div className="text-center text-slate-900 mt-5 flex items-center justify-center gap-2">
-                <p>
-                  <span>Your short URL: </span>
-                  <Link
-                    className="font-bold underline hover:no-underline"
-                    href={`/${shortUrl}`}
-                  >
-                    {shortLink}
-                  </Link>
-                </p>
-                <Button onClick={copyShortLink} size="icon">
+              <div className="flex items-center justify-center space-x-2 mx-auto mt-4">
+                <div className="">
+                  <Label htmlFor="link" className="sr-only">
+                    Link
+                  </Label>
+                  <Input
+                    className="min-w-[18rem]"
+                    id="link"
+                    defaultValue={'https://scissors-phi.vercel.app/aSd3w2'}
+                    readOnly
+                  />
+                </div>
+                <Button
+                  onClick={copyShortLink}
+                  type="submit"
+                  size="sm"
+                  className="px-3"
+                >
                   <span className="sr-only">Copy</span>
                   <Copy className="h-4 w-4" />
                 </Button>
