@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { createClient } from '@/utils/supabase/client';
 import { useEffect, useState } from 'react';
 import ShortLinkCard from '@/app/dashboard/_components/short-link-card';
-import { LinkCardsSkeleton } from '@/components/ui/loading-skeletons';
+import { LinkCardSkeletons } from '@/components/ui/loading-skeletons';
 
 interface Link {
   title: string;
@@ -38,7 +38,6 @@ export default function DashboardPage() {
         return;
       }
 
-      console.log(data);
       setLinks(data);
       setLoading(false);
     };
@@ -46,21 +45,24 @@ export default function DashboardPage() {
     fetchLinks();
   }, []);
   return (
-    <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8 2xl:container bg-gray-50">
+    <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8 2xl:container">
       <div className="grid gap-4 md:gap-8">
-        <Card className="xl:col-span-2">
+        <Card className="xl:col-span-2 border-none shadow-none">
           <CardHeader className="flex flex-row items-center">
             <div className="grid gap-2">
               <CardTitle className="text-lg md:text-2xl">Your Links</CardTitle>
             </div>
-            <Button className="ml-auto gap-1 text-xs md:text-sm">
+            <Link
+              className="h-10 px-4 py-2 inline-flex items-center justify-center whitespace-nowrap rounded-md font-medium ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 dark:ring-offset-slate-950 dark:focus-visible:ring-slate-300 bg-slate-900 text-slate-50 hover:bg-slate-900/90 dark:bg-slate-50 dark:text-slate-900 dark:hover:bg-slate-50/90 ml-auto gap-1 text-xs md:text-sm"
+              href="/"
+            >
               Shorten New Link
-            </Button>
+            </Link>
           </CardHeader>
           <CardContent>
             {loading ? (
               <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3 xl:grid-cols-4 mt-4">
-                <LinkCardsSkeleton />
+                <LinkCardSkeletons />
               </div>
             ) : links.length > 0 ? (
               <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3 xl:grid-cols-4 mt-4">
