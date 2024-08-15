@@ -41,17 +41,17 @@ export default function DashboardLayout({
     <>
       <div className="flex min-h-screen w-full flex-col">
         <header className="flex h-20 items-centergap-4 border-b bg-background px-4 md:px-6 2xl:container">
-          <nav className="flex gap-6 text-sm font-medium items-center md:gap-5 md:text-sm lg:gap-6 mr-auto justify-between">
+          <nav className="flex gap-4 text-sm font-medium items-center md:gap-5 md:text-sm lg:gap-6 mr-auto justify-between">
             <Link
               href="/"
-              className="flex items-center justify-center gap-2 font-black text-slate-900 text-2xl tracking-tight dark:text-white"
+              className="flex items-center justify-center gap-2 font-black text-slate-900 text-lg md:text-2xl tracking-tight dark:text-white"
             >
               <ScissorsLineDashed className="h-6 w-6" />
               <span className="">Scissors</span>
             </Link>
             <Link
               href="/dashboard"
-              className="text-foreground transition-colors hover:text-foreground mt-1"
+              className="text-foreground transition-colors hover:text-foreground text-xs sm:text-sm mt-[0.1rem]"
             >
               Dashboard
             </Link>
