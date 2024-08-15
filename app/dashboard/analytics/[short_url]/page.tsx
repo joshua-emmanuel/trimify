@@ -1,11 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { useParams } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { LinkAnalyticsCardSkeletons } from '@/components/ui/loading-skeletons';
 import { CalendarFold, MapPin, MousePointerClick } from 'lucide-react';
+import { QRCode } from 'react-qrcode-logo';
+import { Button } from '@/components/ui/button';
 
 interface LinkDetailsProps {
   title?: string;
@@ -32,7 +34,13 @@ export default function DashboardAnalytics() {
   const [location, setLocation] = useState<LocationProps | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
+  const qrCodeRef = useRef<QRCode>(null);
+
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+
+  const downloadQRCode = () => {
+    qrCodeRef.current?.download('png', `Short Url QRCode(${short_url})`);
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -78,7 +86,7 @@ export default function DashboardAnalytics() {
     <div>
       <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
         <div>
-          <h2 className="text-2xl font-bold text-slate-900 mb-2">
+          <h2 className="text-2xl font-bold text-slate-900 mb-2 break-words">
             {siteUrl}/{short_url} stats
           </h2>
           {loading ? (
@@ -162,6 +170,25 @@ export default function DashboardAnalytics() {
             )}
           </div>
         )}
+        <div className="my-8">
+          <h2 className="text-2xl font-bold text-slate-900 mb-2">
+            Short URL QR Code
+          </h2>
+          <div className="flex flex-col md:flex-row ml-[-0.5rem]">
+            <QRCode
+              fgColor="#0f172A"
+              ref={qrCodeRef}
+              value={`${siteUrl}/${short_url}`}
+            />
+            <div className="flex flex-col gap-2 justify-between items-start max-w-xs mt-2 ml-2">
+              <p className="font-semibold text-xl text-slate-900">
+                Share your short url qrcode with people online
+              </p>
+              <p>People can access your short url via the qrcode</p>
+              <Button onClick={downloadQRCode}>Download QR Code</Button>
+            </div>
+          </div>
+        </div>
       </main>
     </div>
   );
