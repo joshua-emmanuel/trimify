@@ -18,7 +18,7 @@ export default function ShortLinkCard({ link }: { link: LinkProps }) {
     <Card>
       <CardHeader className="pb-2">
         <CardTitle className="text-sm text-slate-500 font-medium">
-          {link.title || 'Link Name'}
+          {link.title || 'Short Link'}
         </CardTitle>
       </CardHeader>
       <CardContent>
