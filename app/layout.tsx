@@ -9,8 +9,8 @@ const instrumentSans = Instrument_Sans({
 });
 
 export const metadata: Metadata = {
-  title: 'Scissors',
-  description: 'URL Shortener',
+  title: 'Trimify',
+  description: 'Shorten. Share. Simplify',
 };
 
 export default function RootLayout({
