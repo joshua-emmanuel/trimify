@@ -129,7 +129,7 @@ export default function NewShortLinkForm({ closeForm, refetchLinks }: Props) {
             className="text-sm text-slate-900 font-semibold"
             htmlFor="link"
           >
-            Enter link to be shortened
+            Enter link to be trimmed
           </Label>
           <Input
             {...register('link')}
@@ -191,7 +191,7 @@ export default function NewShortLinkForm({ closeForm, refetchLinks }: Props) {
               />
             </svg>
           )}
-          {loading ? 'Shortening...' : 'Make it short'}
+          {loading ? 'Trimming...' : 'Trim it'}
         </Button>
       </div>
     </form>

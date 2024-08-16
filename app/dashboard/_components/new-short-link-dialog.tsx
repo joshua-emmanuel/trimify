@@ -24,7 +24,7 @@ export function NewShortLinkDialog({ refetchLinks }: LinkDialogProps) {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button>Shorten new link</Button>
+        <Button>Trim new link</Button>
       </DialogTrigger>
       <DialogContent className="max-w-[95%] sm:max-w-[425px] rounded-xl">
         <DialogHeader>
