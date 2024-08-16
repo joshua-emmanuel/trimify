@@ -4,7 +4,12 @@ import { useEffect, useRef, useState } from 'react';
 import { createClient } from '@/utils/supabase/client';
 import { useParams } from 'next/navigation';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { LinkAnalyticsCardSkeletons } from '@/components/ui/loading-skeletons';
+import {
+  CardSkeleton,
+  LinkAnalyticsCardSkeletons,
+  QRCodeSkeleton,
+  QRCodeTextSkeleton,
+} from '@/components/ui/loading-skeletons';
 import { CalendarFold, MapPin, MousePointerClick } from 'lucide-react';
 import { QRCode } from 'react-qrcode-logo';
 import { Button } from '@/components/ui/button';
@@ -175,18 +180,27 @@ export default function DashboardAnalytics() {
             Short URL QR Code
           </h2>
           <div className="flex flex-col md:flex-row ml-[-0.5rem]">
-            <QRCode
-              fgColor="#0f172A"
-              ref={qrCodeRef}
-              value={`${siteUrl}/${short_url}`}
-            />
-            <div className="flex flex-col gap-2 justify-between items-start max-w-xs mt-2 ml-2">
-              <p className="font-semibold text-xl text-slate-900">
-                Share your short url qrcode with people online
-              </p>
-              <p>People can access your short url via the qrcode</p>
-              <Button onClick={downloadQRCode}>Download QR Code</Button>
-            </div>
+            {loading ? (
+              <>
+                <QRCodeSkeleton />
+                <QRCodeTextSkeleton />
+              </>
+            ) : (
+              <>
+                <QRCode
+                  fgColor="#0f172A"
+                  ref={qrCodeRef}
+                  value={`${siteUrl}/${short_url}`}
+                />
+                <div className="flex flex-col gap-2 justify-between items-start max-w-xs mt-2 ml-2">
+                  <p className="font-semibold text-xl text-slate-900">
+                    Share your short url qrcode with people online
+                  </p>
+                  <p>People can access your short url via the qrcode</p>
+                  <Button onClick={downloadQRCode}>Download QR Code</Button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       </main>

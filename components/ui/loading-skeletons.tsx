@@ -44,6 +44,37 @@ export function CardSkeleton() {
   );
 }
 
+export function QRCodeSkeleton() {
+  return (
+    <div
+      role="status"
+      className="flex items-center justify-center h-40 w-40 bg-gray-300 rounded-lg animate-pulse dark:bg-gray-700 ml-2"
+    >
+      <span className="sr-only">Loading...</span>
+    </div>
+  );
+}
+
+export function QRCodeTextSkeleton() {
+  return (
+    <div role="status" className="space-y-2.5 animate-pulse max-w-lg ml-2">
+      <div className="flex items-center w-full">
+        <div className="h-[2.25rem] bg-gray-200 rounded-md dark:bg-gray-700 w-[15rem]"></div>
+      </div>
+      <div className="flex items-center w-full">
+        <div className="h-[2.25rem] bg-gray-200 rounded-md dark:bg-gray-700 w-[12rem]"></div>
+      </div>
+      <div className="flex items-center w-full max-w-[480px]">
+        <div className="h-4 bg-gray-200 rounded-md dark:bg-gray-700 w-full"></div>
+      </div>
+      <div className="flex items-center w-full max-w-[360px]">
+        <div className="h-10 bg-gray-300 rounded-md dark:bg-gray-600 w-full"></div>
+      </div>
+      <span className="sr-only">Loading...</span>
+    </div>
+  );
+}
+
 export function LinkCardSkeletons() {
   return (
     <>

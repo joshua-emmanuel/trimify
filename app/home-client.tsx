@@ -52,8 +52,7 @@ export default function HomeClient({ user }: homeClientProps) {
     toast({
       variant: 'success',
       title: 'Short Link Copied',
-      // description:
-      //   'Please confirm that you are logging in with the right credentials',
+      description: 'Feel free to share it online',
     });
   };
 
