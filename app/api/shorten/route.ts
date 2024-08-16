@@ -18,6 +18,13 @@ async function logLinkVisit(urlData: any, ipAddress: any) {
     .eq('short_url', urlData.short_url);
 }
 
+function ensureProtocol(url: string): string {
+  if (!/^https?:\/\//i.test(url)) {
+    return `https://${url}`;
+  }
+  return url;
+}
+
 export async function GET(request: Request) {
   const supabase = createClient();
   const { searchParams } = new URL(request.url);
@@ -41,9 +48,16 @@ export async function GET(request: Request) {
 
   await logLinkVisit(urlData, ipAddress);
 
-  return new Response(JSON.stringify({ original_url: urlData.original_url }), {
-    status: 200,
-  });
+  return new Response(
+    JSON.stringify({
+      title: urlData.title,
+      original_url: urlData.original_url,
+      short_url,
+    }),
+    {
+      status: 200,
+    }
+  );
 }
 
 export async function POST(request: Request) {
@@ -51,18 +65,43 @@ export async function POST(request: Request) {
   const { data: authData } = await supabase.auth.getUser();
   const user = authData?.user;
 
-  const { originalUrl } = await request.json();
-  const shortUrl = nanoid(6);
+  const { title, originalUrl, shortUrl } = await request.json();
+
+  if (shortUrl) {
+    const { data, error } = await supabase
+      .from('links')
+      .select('id')
+      .eq('short_url', shortUrl)
+      .single();
+
+    if (data) {
+      return new Response(
+        JSON.stringify({ message: 'Short URL already exists' }),
+        {
+          status: 409,
+        }
+      );
+    }
+  }
+
+  const short_url = shortUrl || nanoid(6);
+  const original_url = ensureProtocol(originalUrl);
 
   const { data, error } = await supabase.from('links').insert({
-    original_url: originalUrl,
-    short_url: shortUrl,
+    title: title || 'Short Link',
+    original_url,
+    short_url,
     user_id: user?.id,
   });
 
   if (error)
-    return new Response(JSON.stringify({ error: error.message }), {
+    return new Response(JSON.stringify({ message: error.message }), {
       status: 500,
     });
-  return new Response(JSON.stringify({ shortUrl, user }), { status: 200 });
+  return new Response(
+    JSON.stringify({ shortUrl: short_url, user, originalUrl: original_url }),
+    {
+      status: 200,
+    }
+  );
 }
