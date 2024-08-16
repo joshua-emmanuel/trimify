@@ -152,7 +152,7 @@ export default function NewShortLinkForm({ closeForm, refetchLinks }: Props) {
           </Label>
           <div className="relative flex items-center">
             <span className="absolute pl-3 text-sm text-slate-900 font-semibold">
-              https://scissors-phi.vercel.app/
+              https://trimify.netlify.app/
             </span>
             <Input
               className="pl-[13.55rem] pe-3 py-2 placeholder:font-medium"
