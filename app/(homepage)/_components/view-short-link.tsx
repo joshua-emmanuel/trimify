@@ -26,7 +26,10 @@ export default function ViewShortLink({ shortUrl }: ViewShortLinkProps) {
   return (
     <>
       {shortUrl && (
-        <div className="flex items-center justify-center space-x-2 mx-auto mt-4">
+        <div
+          className="flex items-center justify-center space-x-2 mx-auto mt-4"
+          data-testid="view-short-link"
+        >
           <div className="">
             <Label htmlFor="link" className="sr-only">
               Link
