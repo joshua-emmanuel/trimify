@@ -14,7 +14,7 @@ const FormSchema = z.object({
   title: z.string().min(1, { message: 'Please enter a link title' }),
   link: z
     .string()
-    .regex(/^(https?:\/\/)?(www\.)?[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(\/[^\s]*)?$/, {
+    .regex(/^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[^\s]*)?$/, {
       message: 'Please enter a valid link',
     }),
   shortLink: z
@@ -155,7 +155,7 @@ export default function NewShortLinkForm({ closeForm, refetchLinks }: Props) {
               https://trimify.netlify.app/
             </span>
             <Input
-              className="pl-[13.55rem] pe-3 py-2 placeholder:font-medium"
+              className="pl-[11.35rem] pe-3 py-2 placeholder:font-medium"
               {...register('shortLink')}
               id="shortLink"
               name="shortLink"
