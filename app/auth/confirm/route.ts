@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
   const { searchParams, origin, pathname } = new URL(request.url);
   const token_hash = searchParams.get('token_hash');
   const type = searchParams.get('type') as EmailOtpType | null;
-  const next = searchParams.get('next') ?? '/';
+  const next = '/';
 
   if (token_hash && type) {
     const supabase = createClient();
@@ -19,16 +19,16 @@ export async function GET(request: NextRequest) {
     });
     if (!error) {
       // redirect user to specified redirect URL or root of app
-      // redirect(next);
-      searchParams.delete('token_hash');
-      searchParams.delete('type');
+      redirect(next);
+      // searchParams.delete('token_hash');
+      // searchParams.delete('type');
 
-      // Construct the clean URL without the token hash
-      const cleanUrl = `${origin}${pathname}?${searchParams.toString()}`;
+      // // Construct the clean URL without the token hash
+      // const cleanUrl = `${origin}${pathname}?${searchParams.toString()}`;
 
-      // Redirect to the clean URL without keeping the old URL in history
-      redirect(cleanUrl || next);
-      return;
+      // // Redirect to the clean URL without keeping the old URL in history
+      // redirect(cleanUrl || next);
+      // return;
     }
   }
 
