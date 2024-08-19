@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useToast } from '@/components/ui/use-toast';
 
 const FormSchema = z.object({
@@ -39,6 +39,7 @@ type Props = {
 
 export default function NewShortLinkForm({ closeForm, refetchLinks }: Props) {
   const [loading, setLoading] = useState(false);
+  const [shortLinkPadding, setShortLinkPadding] = useState('');
   const { toast } = useToast();
   const {
     register,
@@ -48,7 +49,15 @@ export default function NewShortLinkForm({ closeForm, refetchLinks }: Props) {
     resolver: zodResolver(FormSchema),
   });
 
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
+  const siteUrlRef = useRef<HTMLSpanElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
+
+  useEffect(() => {
+    const siteUrlWidth =
+      Number(getComputedStyle(siteUrlRef.current!).width.split('px')[0]) - 1.7;
+    setShortLinkPadding(siteUrlWidth + 'px');
+  }, []);
 
   const createShortLink = async ({
     title,
@@ -151,11 +160,15 @@ export default function NewShortLinkForm({ closeForm, refetchLinks }: Props) {
             Customise your link (optional)
           </Label>
           <div className="relative flex items-center">
-            <span className="absolute pl-3 text-sm text-slate-900 font-semibold">
-              https://trimify.netlify.app/
+            <span
+              ref={siteUrlRef}
+              className="absolute pl-3 text-sm text-slate-900 font-semibold"
+            >
+              {siteUrl}/
             </span>
             <Input
-              className="pl-[11.35rem] pe-3 py-2 placeholder:font-medium"
+              style={{ paddingLeft: shortLinkPadding }}
+              className="pe-3 py-2 placeholder:font-medium"
               {...register('shortLink')}
               id="shortLink"
               name="shortLink"
