@@ -13,12 +13,21 @@ export async function GET(request: NextRequest) {
   if (token_hash && type) {
     const supabase = createClient();
 
-    const { error } = await supabase.auth.verifyOtp({
+    const { data: authData, error } = await supabase.auth.verifyOtp({
       type,
       token_hash,
     });
+
+    const access_token = authData.session?.access_token;
+    const refresh_token = authData.session?.refresh_token;
+
     if (!error) {
-      // redirect user to specified redirect URL or root of app
+      if (access_token && refresh_token) {
+        const { data, error } = await supabase.auth.setSession({
+          access_token,
+          refresh_token,
+        });
+      }
       redirect(next);
     }
   }
