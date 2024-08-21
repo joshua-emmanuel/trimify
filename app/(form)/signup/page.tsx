@@ -10,7 +10,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@radix-ui/react-label';
 import { Button } from '@/components/ui/button';
-import { signup } from '@/app/(form)/form-actions';
+import { signup } from '@/app/(form)/actions';
 import { useFormState, useFormStatus } from 'react-dom';
 import Link from 'next/link';
 import { useEffect, useRef } from 'react';

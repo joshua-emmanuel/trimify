@@ -10,7 +10,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@radix-ui/react-label';
 import { Button } from '@/components/ui/button';
-import { login } from '@/app/(form)/form-actions';
+import { login } from '@/app/(form)/actions';
 import { useFormState, useFormStatus } from 'react-dom';
 import Link from 'next/link';
 import { useEffect, useRef } from 'react';
@@ -118,6 +118,14 @@ export default function LogInPage() {
           </CardContent>
           <CardFooter className="flex flex-col items-start">
             <LogInButton />
+            <p className="text-sm mt-2">
+              <Link
+                className="underline font-bold hover:no-underline"
+                href="/reset-password"
+              >
+                Forgot Password?
+              </Link>
+            </p>
             <p className="text-sm mt-2">
               <span>Don&apos;t have an account? </span>
               <Link

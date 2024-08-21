@@ -12,7 +12,7 @@ import { CircleUser, ScissorsLineDashed } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { logout } from '@/app/(form)/form-actions';
+import { logout } from '@/app/(form)/actions';
 
 export default function DashboardHeader({
   userEmail,
