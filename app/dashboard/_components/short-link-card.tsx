@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/components/ui/use-toast';
 import { Copy } from 'lucide-react';
+import { ensureProtocol } from '@/utils/utils';
 import Link from 'next/link';
 
 interface LinkProps {
@@ -11,13 +12,6 @@ interface LinkProps {
   original_url: string;
   short_url: string;
   user_id: string;
-}
-
-function ensureProtocol(url: string): string {
-  if (!/^https?:\/\//i.test(url)) {
-    return `https://${url}`;
-  }
-  return url;
 }
 
 export default function ShortLinkCard({ link }: { link: LinkProps }) {
