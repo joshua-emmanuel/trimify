@@ -1,5 +1,6 @@
 import { nanoid } from 'nanoid';
 import { createClient } from '@/utils/supabase/server';
+import { ensureProtocol } from '@/utils/utils';
 
 async function logLinkVisit(urlData: any, ipAddress: any) {
   const supabase = createClient();
@@ -16,13 +17,6 @@ async function logLinkVisit(urlData: any, ipAddress: any) {
       }),
     })
     .eq('short_url', urlData.short_url);
-}
-
-function ensureProtocol(url: string): string {
-  if (!/^https?:\/\//i.test(url)) {
-    return `https://${url}`;
-  }
-  return url;
 }
 
 export async function GET(request: Request) {
