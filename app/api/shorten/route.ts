@@ -99,3 +99,53 @@ export async function POST(request: Request) {
     }
   );
 }
+
+export async function PUT(request: Request) {
+  const supabase = createClient();
+
+  const { title, originalUrl, shortUrl, id } = await request.json();
+  const original_url = ensureProtocol(originalUrl);
+
+  // If a new short URL is provided, check if it already exists
+  if (shortUrl) {
+    const { data: existingLink, error: existingLinkError } = await supabase
+      .from('links')
+      .select('id')
+      .eq('short_url', shortUrl)
+      .single();
+
+    if (existingLink) {
+      return new Response(
+        JSON.stringify({ message: 'Short URL already exists' }),
+        {
+          status: 409,
+        }
+      );
+    }
+  }
+
+  const short_url = shortUrl === '' ? nanoid(6) : shortUrl;
+
+  const { data, error } = await supabase
+    .from('links')
+    .update({
+      title: title || 'Short Link',
+      original_url,
+      short_url,
+    })
+    .eq('id', id);
+
+  if (error) {
+    console.log(error);
+    return new Response(JSON.stringify({ message: error.message }), {
+      status: 500,
+    });
+  }
+
+  return new Response(
+    JSON.stringify({ message: 'Short URL updated successfully' }),
+    {
+      status: 200,
+    }
+  );
+}
