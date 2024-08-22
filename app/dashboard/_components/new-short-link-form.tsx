@@ -55,7 +55,7 @@ export default function NewShortLinkForm({ closeForm, refetchLinks }: Props) {
 
   useEffect(() => {
     const siteUrlWidth =
-      Number(getComputedStyle(siteUrlRef.current!).width.split('px')[0]) - 1.7;
+      Number(getComputedStyle(siteUrlRef.current!).width.split('px')[0]) - 1;
     setShortLinkPadding(siteUrlWidth + 'px');
   }, []);
 
