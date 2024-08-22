@@ -67,7 +67,11 @@ export default function DashboardPage() {
               <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-3 xl:grid-cols-4 mt-4">
                 {links.length > 0 &&
                   links.map((link) => (
-                    <ShortLinkCard key={link.id} link={link} />
+                    <ShortLinkCard
+                      key={link.id}
+                      link={link}
+                      refetchLinks={() => setLinksUpdated(!linksUpdated)}
+                    />
                   ))}
               </div>
             ) : (
