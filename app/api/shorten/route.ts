@@ -24,8 +24,6 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const short_url = searchParams.get("short_url");
 
-  console.log(short_url);
-
   const ipAddress =
     request.headers.get("x-forwarded-for") ||
     request.headers.get("remote-addr");

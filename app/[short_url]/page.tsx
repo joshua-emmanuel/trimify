@@ -1,6 +1,4 @@
-import { Button } from "@/components/ui/button";
 import { getUrl } from "@/utils/utils";
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import RedirectErrorPage from "./redirect-error";
 
@@ -15,21 +13,26 @@ export default async function RedirectPage({
 }) {
   const { short_url } = params;
   const baseUrl = getUrl();
-  console.log(baseUrl);
 
   try {
     const response = await fetch(
       `${baseUrl}/api/shorten?short_url=${short_url}`
     );
+
     if (!response.ok) {
       if (response.status === 404) {
         return <RedirectErrorPage heading="404! Short Url Not Found" />;
       }
       return <RedirectErrorPage />;
     }
+
     const data: UrlType = await response.json();
     redirect(data.original_url);
-  } catch (error) {
+  } catch (error: any) {
+    if (error.digest?.startsWith("NEXT_REDIRECT")) {
+      throw error;
+    }
+
     return <RedirectErrorPage />;
   }
 }
