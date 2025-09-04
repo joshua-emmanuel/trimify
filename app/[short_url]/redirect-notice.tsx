@@ -8,11 +8,14 @@ import { useEffect } from "react";
 export default function RedirectNotice({ heading }: { heading?: string }) {
   const router = useRouter();
 
-  useEffect(function () {
-    setTimeout(function () {
-      router.push("/");
-    }, 2500);
-  }, []);
+  useEffect(
+    function () {
+      setTimeout(function () {
+        router.push("/");
+      }, 2500);
+    },
+    [router]
+  );
 
   return (
     <main className="min-h-[85vh] flex flex-col items-center justify-center">
@@ -21,7 +24,7 @@ export default function RedirectNotice({ heading }: { heading?: string }) {
           {heading || "Oops! An Error Occurred"}
         </h1>
         <p className="mt-4 mb-8">
-          You'll be redirected to the homepage shortly
+          You&apos;ll be redirected to the homepage shortly
         </p>
         <Link href={"/"}>
           <Button>Go back home</Button>
