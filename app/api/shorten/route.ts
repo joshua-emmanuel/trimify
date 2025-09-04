@@ -1,41 +1,43 @@
-import { nanoid } from 'nanoid';
-import { createClient } from '@/utils/supabase/server';
-import { ensureProtocol } from '@/utils/utils';
+import { nanoid } from "nanoid";
+import { createClient } from "@/utils/supabase/server";
+import { ensureProtocol } from "@/utils/utils";
 
 async function logLinkVisit(urlData: any, ipAddress: any) {
   const supabase = createClient();
 
   await supabase
-    .from('links')
+    .from("links")
     .update({
       last_accessed_ip: ipAddress,
       click_count: urlData.click_count + 1,
-      last_accessed_at: new Date().toLocaleTimeString('en-US', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric',
+      last_accessed_at: new Date().toLocaleTimeString("en-US", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
       }),
     })
-    .eq('short_url', urlData.short_url);
+    .eq("short_url", urlData.short_url);
 }
 
 export async function GET(request: Request) {
   const supabase = createClient();
   const { searchParams } = new URL(request.url);
-  const short_url = searchParams.get('short_url');
+  const short_url = searchParams.get("short_url");
+
+  console.log(short_url);
 
   const ipAddress =
-    request.headers.get('x-forwarded-for') ||
-    request.headers.get('remote-addr');
+    request.headers.get("x-forwarded-for") ||
+    request.headers.get("remote-addr");
 
   const { data: urlData, error } = await supabase
-    .from('links')
-    .select('*')
-    .eq('short_url', short_url)
+    .from("links")
+    .select("*")
+    .eq("short_url", short_url)
     .single();
 
   if (error || !urlData) {
-    return new Response(JSON.stringify({ error: 'URL not found' }), {
+    return new Response(JSON.stringify({ error: "URL not found" }), {
       status: 404,
     });
   }
@@ -63,14 +65,14 @@ export async function POST(request: Request) {
 
   if (shortUrl) {
     const { data, error } = await supabase
-      .from('links')
-      .select('id')
-      .eq('short_url', shortUrl)
+      .from("links")
+      .select("id")
+      .eq("short_url", shortUrl)
       .single();
 
     if (data) {
       return new Response(
-        JSON.stringify({ message: 'Short URL already exists' }),
+        JSON.stringify({ message: "Short URL already exists" }),
         {
           status: 409,
         }
@@ -81,8 +83,8 @@ export async function POST(request: Request) {
   const short_url = shortUrl || nanoid(6);
   const original_url = ensureProtocol(originalUrl);
 
-  const { data, error } = await supabase.from('links').insert({
-    title: title || 'Short Link',
+  const { data, error } = await supabase.from("links").insert({
+    title: title || "Short Link",
     original_url,
     short_url,
     user_id: user?.id,
@@ -109,14 +111,14 @@ export async function PUT(request: Request) {
   // If a new short URL is provided, check if it already exists
   if (shortUrl) {
     const { data: existingLink, error: existingLinkError } = await supabase
-      .from('links')
-      .select('id')
-      .eq('short_url', shortUrl)
+      .from("links")
+      .select("id")
+      .eq("short_url", shortUrl)
       .single();
 
     if (existingLink) {
       return new Response(
-        JSON.stringify({ message: 'Short URL already exists' }),
+        JSON.stringify({ message: "Short URL already exists" }),
         {
           status: 409,
         }
@@ -124,16 +126,16 @@ export async function PUT(request: Request) {
     }
   }
 
-  const short_url = shortUrl === '' ? nanoid(6) : shortUrl;
+  const short_url = shortUrl === "" ? nanoid(6) : shortUrl;
 
   const { data, error } = await supabase
-    .from('links')
+    .from("links")
     .update({
-      title: title || 'Short Link',
+      title: title || "Short Link",
       original_url,
       short_url,
     })
-    .eq('id', id);
+    .eq("id", id);
 
   if (error) {
     console.log(error);
@@ -143,7 +145,7 @@ export async function PUT(request: Request) {
   }
 
   return new Response(
-    JSON.stringify({ message: 'Short URL updated successfully' }),
+    JSON.stringify({ message: "Short URL updated successfully" }),
     {
       status: 200,
     }

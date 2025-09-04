@@ -1,55 +1,35 @@
-'use client';
-
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { useToast } from '@/components/ui/use-toast';
+import { Button } from "@/components/ui/button";
+import { getUrl } from "@/utils/utils";
+import Link from "next/link";
+import { redirect } from "next/navigation";
+import RedirectErrorPage from "./redirect-error";
 
 type UrlType = {
   original_url: string;
 };
 
-export default function RedirectPage({
+export default async function RedirectPage({
   params,
 }: {
-  params: {
-    short_url: string;
-  };
+  params: { short_url: string };
 }) {
-  const { toast } = useToast();
-  const router = useRouter();
   const { short_url } = params;
+  const baseUrl = getUrl();
+  console.log(baseUrl);
 
-  useEffect(() => {
-    const fetchUrl = async () => {
-      try {
-        const response = await fetch(`/api/shorten?short_url=${short_url}`);
-        if (!response.ok) {
-          if (response.status === 404) {
-            toast({
-              variant: 'error',
-              title: 'Short Url Not Found',
-              description: 'You will be redirected to the homepage shortly',
-            });
-            router.push('/');
-            return;
-          }
-          toast({
-            variant: 'error',
-            title: 'An error occured',
-            description: 'You will be redirected to the homepage shortly',
-          });
-          router.push('/');
-          return;
-        }
-        const data: UrlType = await response.json();
-        window.location.href = data.original_url;
-      } catch (error) {
-        router.push('/');
+  try {
+    const response = await fetch(
+      `${baseUrl}/api/shorten?short_url=${short_url}`
+    );
+    if (!response.ok) {
+      if (response.status === 404) {
+        return <RedirectErrorPage heading="404! Short Url Not Found" />;
       }
-    };
-
-    fetchUrl();
-  }, [short_url, router]);
-
-  return null;
+      return <RedirectErrorPage />;
+    }
+    const data: UrlType = await response.json();
+    redirect(data.original_url);
+  } catch (error) {
+    return <RedirectErrorPage />;
+  }
 }
