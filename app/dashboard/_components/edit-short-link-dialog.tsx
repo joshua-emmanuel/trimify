@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -6,10 +6,10 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { useState } from 'react';
-import { Edit2 } from 'lucide-react';
-import EditShortLinkForm from '@/app/dashboard/_components/edit-short-link-form';
+} from "@/components/ui/dialog";
+import { useState } from "react";
+import { Edit2 } from "lucide-react";
+import EditShortLinkForm from "@/app/dashboard/_components/edit-short-link-form";
 
 type LinkType = {
   title: string;
@@ -27,7 +27,6 @@ type LinkDialogProps = {
 
 export function EditShortLinkDialog({ link, refetchLinks }: LinkDialogProps) {
   const [isOpen, setIsOpen] = useState(false);
-  console.log(link);
 
   const closeDialog = () => {
     setIsOpen(false);

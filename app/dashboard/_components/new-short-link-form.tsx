@@ -1,27 +1,27 @@
-'use client';
+"use client";
 
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Button } from '@/components/ui/button';
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { useForm } from 'react-hook-form';
-import { useEffect, useRef, useState } from 'react';
-import { useToast } from '@/components/ui/use-toast';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { useEffect, useRef, useState } from "react";
+import { useToast } from "@/components/ui/use-toast";
 
 const FormSchema = z.object({
-  title: z.string().min(1, { message: 'Please enter a link title' }),
+  title: z.string().min(1, { message: "Please enter a link title" }),
   link: z
     .string()
     .regex(/^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[^\s]*)?$/, {
-      message: 'Please enter a valid link',
+      message: "Please enter a valid link",
     }),
   shortLink: z
     .string()
-    .min(3, { message: 'Short link has to be at least 3 characters' })
+    .min(3, { message: "Short link has to be at least 3 characters" })
     .optional()
-    .or(z.literal('')),
+    .or(z.literal("")),
 });
 
 type IFormInput = z.infer<typeof FormSchema>;
@@ -39,7 +39,7 @@ type Props = {
 
 export default function NewShortLinkForm({ closeForm, refetchLinks }: Props) {
   const [loading, setLoading] = useState(false);
-  const [shortLinkPadding, setShortLinkPadding] = useState('');
+  const [shortLinkPadding, setShortLinkPadding] = useState("");
   const { toast } = useToast();
   const {
     register,
@@ -55,8 +55,8 @@ export default function NewShortLinkForm({ closeForm, refetchLinks }: Props) {
 
   useEffect(() => {
     const siteUrlWidth =
-      Number(getComputedStyle(siteUrlRef.current!).width.split('px')[0]) - 1;
-    setShortLinkPadding(siteUrlWidth + 'px');
+      Number(getComputedStyle(siteUrlRef.current!).width.split("px")[0]) - 1;
+    setShortLinkPadding(siteUrlWidth + "px");
   }, []);
 
   const createShortLink = async ({
@@ -66,10 +66,10 @@ export default function NewShortLinkForm({ closeForm, refetchLinks }: Props) {
   }: CreateShortLinkProps): Promise<void> => {
     try {
       setLoading(true);
-      const response = await fetch('/api/shorten', {
-        method: 'POST',
+      const response = await fetch("/api/shorten", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ title, originalUrl, shortUrl }),
       });
@@ -78,9 +78,9 @@ export default function NewShortLinkForm({ closeForm, refetchLinks }: Props) {
         if (response.status === 409) {
           const errorData = await response.json();
           toast({
-            variant: 'error',
+            variant: "error",
             title: errorData.message,
-            description: 'Please input another short link',
+            description: "Please input another short link",
           });
           return;
         }
@@ -93,12 +93,12 @@ export default function NewShortLinkForm({ closeForm, refetchLinks }: Props) {
       refetchLinks();
       formRef.current?.reset();
       toast({
-        variant: 'success',
-        title: 'Your short link has been created successfully',
+        variant: "success",
+        title: "Your short link has been created successfully",
       });
       closeForm();
     } catch (error: any) {
-      console.log(error);
+      console.error(error);
     } finally {
       setLoading(false);
     }
@@ -122,7 +122,7 @@ export default function NewShortLinkForm({ closeForm, refetchLinks }: Props) {
             Title of your link
           </Label>
           <Input
-            {...register('title')}
+            {...register("title")}
             id="title"
             name="title"
             type="text"
@@ -141,7 +141,7 @@ export default function NewShortLinkForm({ closeForm, refetchLinks }: Props) {
             Enter link to be trimmed
           </Label>
           <Input
-            {...register('link')}
+            {...register("link")}
             id="link"
             name="link"
             type="text"
@@ -169,7 +169,7 @@ export default function NewShortLinkForm({ closeForm, refetchLinks }: Props) {
             <Input
               style={{ paddingLeft: shortLinkPadding }}
               className="pe-3 py-2 placeholder:font-medium"
-              {...register('shortLink')}
+              {...register("shortLink")}
               id="shortLink"
               name="shortLink"
               type="text"
@@ -204,7 +204,7 @@ export default function NewShortLinkForm({ closeForm, refetchLinks }: Props) {
               />
             </svg>
           )}
-          {loading ? 'Trimming...' : 'Trim it'}
+          {loading ? "Trimming..." : "Trim it"}
         </Button>
       </div>
     </form>

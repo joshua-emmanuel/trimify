@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   Card,
@@ -6,16 +6,16 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@radix-ui/react-label';
-import { Button } from '@/components/ui/button';
-import { signup } from '@/app/(form)/actions';
-import { useFormState, useFormStatus } from 'react-dom';
-import Link from 'next/link';
-import { useEffect, useRef } from 'react';
-import { useToast } from '@/components/ui/use-toast';
-import { redirect } from 'next/navigation';
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@radix-ui/react-label";
+import { Button } from "@/components/ui/button";
+import { signup } from "@/app/(form)/actions";
+import { useFormState, useFormStatus } from "react-dom";
+import Link from "next/link";
+import { useEffect, useRef } from "react";
+import { useToast } from "@/components/ui/use-toast";
+import { redirect } from "next/navigation";
 
 function SignUpButton() {
   const { pending } = useFormStatus();
@@ -44,14 +44,14 @@ function SignUpButton() {
           />
         </svg>
       )}
-      {pending ? 'Signing up...' : 'Sign Up'}
+      {pending ? "Signing up..." : "Sign Up"}
     </Button>
   );
 }
 
 export default function SignUpPage() {
   const [formState, formAction] = useFormState(signup, {
-    message: '',
+    message: "",
     error: null,
   });
 
@@ -60,20 +60,20 @@ export default function SignUpPage() {
   const { toast } = useToast();
 
   useEffect(() => {
-    if (formState.message === 'success') {
+    if (formState.message === "success") {
       formRef.current?.reset();
       toast({
-        variant: 'success',
-        title: 'Successful Sign Up',
-        description: 'Please check your inbox for a confirmation email',
+        variant: "success",
+        title: "Successful Sign Up",
+        description: "Please check your inbox for a confirmation email",
       });
-      redirect('/login');
-    } else if (formState.message === 'error') {
-      console.log(formState.error);
+      redirect("/login");
+    } else if (formState.message === "error") {
+      console.error(formState.error);
       toast({
-        variant: 'error',
-        title: 'An error occured',
-        description: 'Please try again later',
+        variant: "error",
+        title: "An error occured",
+        description: "Please try again later",
       });
     }
   }, [formState, toast]);
@@ -108,7 +108,7 @@ export default function SignUpPage() {
           <CardFooter className="flex flex-col items-start">
             <SignUpButton />
             <p className="text-sm mt-2">
-              Already have an account?{' '}
+              Already have an account?{" "}
               <Link
                 className="underline font-bold hover:no-underline"
                 href="/login"

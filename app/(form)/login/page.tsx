@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   Card,
@@ -6,16 +6,16 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@radix-ui/react-label';
-import { Button } from '@/components/ui/button';
-import { login } from '@/app/(form)/actions';
-import { useFormState, useFormStatus } from 'react-dom';
-import Link from 'next/link';
-import { useEffect, useRef } from 'react';
-import { useToast } from '@/components/ui/use-toast';
-import { useRouter } from 'next/navigation';
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@radix-ui/react-label";
+import { Button } from "@/components/ui/button";
+import { login } from "@/app/(form)/actions";
+import { useFormState, useFormStatus } from "react-dom";
+import Link from "next/link";
+import { useEffect, useRef } from "react";
+import { useToast } from "@/components/ui/use-toast";
+import { useRouter } from "next/navigation";
 
 function LogInButton() {
   const { pending } = useFormStatus();
@@ -44,14 +44,14 @@ function LogInButton() {
           />
         </svg>
       )}
-      {pending ? 'Logging in...' : 'Log In'}
+      {pending ? "Logging in..." : "Log In"}
     </Button>
   );
 }
 
 export default function LogInPage() {
   const [formState, formAction] = useFormState(login, {
-    message: '',
+    message: "",
     error: null,
   });
 
@@ -61,29 +61,29 @@ export default function LogInPage() {
   const router = useRouter();
 
   useEffect(() => {
-    if (formState.message === 'success') {
+    if (formState.message === "success") {
       formRef.current?.reset();
       toast({
-        variant: 'success',
-        title: 'Successful Log In',
+        variant: "success",
+        title: "Successful Log In",
         description:
-          'You would be redirected to your dashboard in a few seconds',
+          "You would be redirected to your dashboard in a few seconds",
       });
-      router.push('/dashboard');
-    } else if (formState.message === 'error') {
-      console.log(formState.error);
-      const errorMessage = formState.error?.split('AuthApiError: ')[1];
-      if (errorMessage === 'Invalid login credentials') {
+      router.push("/dashboard");
+    } else if (formState.message === "error") {
+      console.error(formState.error);
+      const errorMessage = formState.error?.split("AuthApiError: ")[1];
+      if (errorMessage === "Invalid login credentials") {
         toast({
-          variant: 'error',
+          variant: "error",
           title: errorMessage,
           description:
-            'Please confirm that you are logging in with the right credentials',
+            "Please confirm that you are logging in with the right credentials",
         });
-      } else if (errorMessage === 'Email not confirmed') {
+      } else if (errorMessage === "Email not confirmed") {
         toast({
           title: errorMessage,
-          description: 'Please check your inbox for a confirmation email',
+          description: "Please check your inbox for a confirmation email",
         });
       }
     }

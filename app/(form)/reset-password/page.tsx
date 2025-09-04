@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   Card,
@@ -7,16 +7,16 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@radix-ui/react-label';
-import { Button } from '@/components/ui/button';
-import { resetPassword } from '@/app/(form)/actions';
-import { useFormState, useFormStatus } from 'react-dom';
-import Link from 'next/link';
-import { useEffect, useRef } from 'react';
-import { useToast } from '@/components/ui/use-toast';
-import { redirect } from 'next/navigation';
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@radix-ui/react-label";
+import { Button } from "@/components/ui/button";
+import { resetPassword } from "@/app/(form)/actions";
+import { useFormState, useFormStatus } from "react-dom";
+import Link from "next/link";
+import { useEffect, useRef } from "react";
+import { useToast } from "@/components/ui/use-toast";
+import { redirect } from "next/navigation";
 
 function ResetPasswordButton() {
   const { pending } = useFormStatus();
@@ -45,14 +45,14 @@ function ResetPasswordButton() {
           />
         </svg>
       )}
-      {pending ? 'Resetting password...' : 'Reset Password'}
+      {pending ? "Resetting password..." : "Reset Password"}
     </Button>
   );
 }
 
 export default function ResetPasswordPage() {
   const [formState, formAction] = useFormState(resetPassword, {
-    message: '',
+    message: "",
     error: null,
   });
 
@@ -61,19 +61,19 @@ export default function ResetPasswordPage() {
   const { toast } = useToast();
 
   useEffect(() => {
-    if (formState.message === 'success') {
+    if (formState.message === "success") {
       formRef.current?.reset();
       toast({
-        variant: 'success',
-        title: 'Check your email for a link to reset thy password',
+        variant: "success",
+        title: "Check your email for a link to reset thy password",
       });
-      redirect('/login');
-    } else if (formState.message === 'error') {
-      console.log(formState.error);
+      redirect("/login");
+    } else if (formState.message === "error") {
+      console.error(formState.error);
       toast({
-        variant: 'error',
-        title: 'An error occured',
-        description: 'Please try again later',
+        variant: "error",
+        title: "An error occured",
+        description: "Please try again later",
       });
     }
   }, [formState, toast]);
@@ -113,7 +113,7 @@ export default function ResetPasswordPage() {
           <CardFooter className="flex flex-col items-start">
             <ResetPasswordButton />
             <p className="text-sm mt-2">
-              Remember your password?{' '}
+              Remember your password?{" "}
               <Link
                 className="underline font-bold hover:no-underline"
                 href="/login"

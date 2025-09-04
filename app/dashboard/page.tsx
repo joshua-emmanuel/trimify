@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { createClient } from '@/utils/supabase/client';
-import { useEffect, useState } from 'react';
-import ShortLinkCard from '@/app/dashboard/_components/short-link-card';
-import { LinkCardSkeletons } from '@/components/ui/loading-skeletons';
-import { NewShortLinkDialog } from '@/app/dashboard/_components/new-short-link-dialog';
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { createClient } from "@/utils/supabase/client";
+import { useEffect, useState } from "react";
+import ShortLinkCard from "@/app/dashboard/_components/short-link-card";
+import { LinkCardSkeletons } from "@/components/ui/loading-skeletons";
+import { NewShortLinkDialog } from "@/app/dashboard/_components/new-short-link-dialog";
 
 interface Link {
   title: string;
@@ -31,12 +31,12 @@ export default function DashboardPage() {
       const { data: authData } = await supabase.auth.getUser();
       const user = authData.user;
       const { data, error }: { data: [] | any; error: any } = await supabase
-        .from('links')
-        .select('*')
-        .eq('user_id', user?.id);
+        .from("links")
+        .select("*")
+        .eq("user_id", user?.id);
 
       if (error) {
-        console.log(error);
+        console.error(error);
         return;
       }
 

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   Card,
@@ -6,15 +6,15 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@radix-ui/react-label';
-import { Button } from '@/components/ui/button';
-import { updatePassword } from '@/app/(form)/actions';
-import { useFormState, useFormStatus } from 'react-dom';
-import { useEffect, useRef } from 'react';
-import { useToast } from '@/components/ui/use-toast';
-import { redirect } from 'next/navigation';
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@radix-ui/react-label";
+import { Button } from "@/components/ui/button";
+import { updatePassword } from "@/app/(form)/actions";
+import { useFormState, useFormStatus } from "react-dom";
+import { useEffect, useRef } from "react";
+import { useToast } from "@/components/ui/use-toast";
+import { redirect } from "next/navigation";
 
 function UpdatePasswordButton() {
   const { pending } = useFormStatus();
@@ -43,14 +43,14 @@ function UpdatePasswordButton() {
           />
         </svg>
       )}
-      {pending ? 'Updating password...' : 'Update Password'}
+      {pending ? "Updating password..." : "Update Password"}
     </Button>
   );
 }
 
 export default function UpdatePasswordPage() {
   const [formState, formAction] = useFormState(updatePassword, {
-    message: '',
+    message: "",
     error: null,
   });
 
@@ -59,20 +59,20 @@ export default function UpdatePasswordPage() {
   const { toast } = useToast();
 
   useEffect(() => {
-    if (formState.message === 'success') {
+    if (formState.message === "success") {
       formRef.current?.reset();
       toast({
-        variant: 'success',
-        title: 'Hooray!',
-        description: 'Thy password hath been successfully updated',
+        variant: "success",
+        title: "Hooray!",
+        description: "Thy password hath been successfully updated",
       });
-      redirect('/login');
-    } else if (formState.message === 'error') {
-      console.log(formState.error);
+      redirect("/login");
+    } else if (formState.message === "error") {
+      console.error(formState.error);
       toast({
-        variant: 'error',
-        title: 'An error occured',
-        description: 'Please try again later',
+        variant: "error",
+        title: "An error occured",
+        description: "Please try again later",
       });
     }
   }, [formState, toast]);

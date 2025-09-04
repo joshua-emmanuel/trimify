@@ -1,27 +1,27 @@
-'use client';
+"use client";
 
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Button } from '@/components/ui/button';
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { useForm } from 'react-hook-form';
-import { useEffect, useRef, useState } from 'react';
-import { useToast } from '@/components/ui/use-toast';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { useForm } from "react-hook-form";
+import { useEffect, useRef, useState } from "react";
+import { useToast } from "@/components/ui/use-toast";
 
 const FormSchema = z.object({
-  title: z.string().min(1, { message: 'Please enter a link title' }),
+  title: z.string().min(1, { message: "Please enter a link title" }),
   link: z
     .string()
     .regex(/^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[^\s]*)?$/, {
-      message: 'Please enter a valid link',
+      message: "Please enter a valid link",
     }),
   shortLink: z
     .string()
-    .min(3, { message: 'Short link has to be at least 3 characters' })
+    .min(3, { message: "Short link has to be at least 3 characters" })
     .optional()
-    .or(z.literal('')),
+    .or(z.literal("")),
 });
 
 type IFormInput = z.infer<typeof FormSchema>;
@@ -54,7 +54,7 @@ export default function EditShortLinkForm({
   refetchLinks,
 }: Props) {
   const [loading, setLoading] = useState(false);
-  const [shortLinkPadding, setShortLinkPadding] = useState('');
+  const [shortLinkPadding, setShortLinkPadding] = useState("");
   const { toast } = useToast();
   const {
     register,
@@ -70,8 +70,8 @@ export default function EditShortLinkForm({
 
   useEffect(() => {
     const siteUrlWidth =
-      Number(getComputedStyle(siteUrlRef.current!).width.split('px')[0]) - 1;
-    setShortLinkPadding(siteUrlWidth + 'px');
+      Number(getComputedStyle(siteUrlRef.current!).width.split("px")[0]) - 1;
+    setShortLinkPadding(siteUrlWidth + "px");
   }, []);
 
   const editShortLink = async ({
@@ -82,10 +82,10 @@ export default function EditShortLinkForm({
   }: EditShortLinkTypes): Promise<void> => {
     try {
       setLoading(true);
-      const response = await fetch('/api/shorten', {
-        method: 'PUT',
+      const response = await fetch("/api/shorten", {
+        method: "PUT",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           id,
@@ -99,9 +99,9 @@ export default function EditShortLinkForm({
         if (response.status === 409) {
           const errorData = await response.json();
           toast({
-            variant: 'error',
+            variant: "error",
             title: errorData.message,
-            description: 'Please input another short link',
+            description: "Please input another short link",
           });
           return;
         }
@@ -114,16 +114,15 @@ export default function EditShortLinkForm({
       refetchLinks();
       formRef.current?.reset();
       toast({
-        variant: 'success',
-        title: 'Short Url updated successfully',
+        variant: "success",
+        title: "Short Url updated successfully",
       });
       closeForm();
     } catch (error: any) {
-      console.log(error);
       toast({
-        variant: 'error',
-        title: 'Oops! An error occurred',
-        description: 'Please try again later',
+        variant: "error",
+        title: "Oops! An error occurred",
+        description: "Please try again later",
       });
     } finally {
       setLoading(false);
@@ -149,7 +148,7 @@ export default function EditShortLinkForm({
             Title of your link
           </Label>
           <Input
-            {...register('title')}
+            {...register("title")}
             id="title"
             name="title"
             type="text"
@@ -167,7 +166,7 @@ export default function EditShortLinkForm({
             Link to be trimmed
           </Label>
           <Input
-            {...register('link')}
+            {...register("link")}
             id="link"
             name="link"
             type="text"
@@ -194,7 +193,7 @@ export default function EditShortLinkForm({
             <Input
               style={{ paddingLeft: shortLinkPadding }}
               className="pe-3 py-2 placeholder:font-medium"
-              {...register('shortLink')}
+              {...register("shortLink")}
               id="shortLink"
               name="shortLink"
               defaultValue={link.short_url}
@@ -228,7 +227,7 @@ export default function EditShortLinkForm({
               />
             </svg>
           )}
-          {loading ? 'Saving changes...' : 'Save changes'}
+          {loading ? "Saving changes..." : "Save changes"}
         </Button>
       </div>
     </form>
