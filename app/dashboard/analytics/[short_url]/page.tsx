@@ -5,7 +5,6 @@ import { createClient } from "@/utils/supabase/client";
 import { useParams } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
-  CardSkeleton,
   LinkAnalyticsCardSkeletons,
   QRCodeSkeleton,
   QRCodeTextSkeleton,
@@ -56,6 +55,8 @@ export default function DashboardAnalytics() {
       if (!error) {
         setLinkDetails(data);
       }
+
+      setLoading(false);
     };
 
     fetchLinks();
