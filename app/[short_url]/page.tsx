@@ -2,6 +2,7 @@ import { getUrl } from "@/utils/utils";
 import { redirect } from "next/navigation";
 import RedirectErrorPage from "./redirect-error";
 import { headers } from "next/headers";
+import { createClient } from "@/utils/supabase/server";
 
 type UrlType = {
   original_url: string;
@@ -13,31 +14,41 @@ export default async function RedirectPage({
   params: { short_url: string };
 }) {
   const { short_url } = params;
-  const baseUrl = getUrl();
   const headersList = headers();
 
-  try {
-    const response = await fetch(
-      `${baseUrl}/api/shorten?short_url=${short_url}`,
-      {
-        headers: {
-          "x-forwarded-for": headersList.get("x-forwarded-for") || "",
-          "x-vercel-ip-city": headersList.get("x-vercel-ip-city") || "",
-          "x-vercel-ip-country": headersList.get("x-vercel-ip-country") || "",
-        },
-        cache: "no-store",
-      }
-    );
+  const ipAddress = headersList.get("x-forwarded-for");
+  const city = headersList.get("x-vercel-ip-city");
+  const country = headersList.get("x-vercel-ip-country");
 
-    if (!response.ok) {
-      if (response.status === 404) {
-        return <RedirectErrorPage heading="404! Short Url Not Found" />;
-      }
-      return <RedirectErrorPage />;
+  const supabase = createClient();
+
+  try {
+    const { data: urlData, error } = await supabase
+      .from("links")
+      .select("*")
+      .eq("short_url", short_url)
+      .single();
+
+    if (error || !urlData) {
+      return <RedirectErrorPage heading="404! Short Url Not Found" />;
     }
 
-    const data: UrlType = await response.json();
-    redirect(data.original_url);
+    await supabase
+      .from("links")
+      .update({
+        last_accessed_ip: ipAddress,
+        last_accessed_city: city,
+        last_accessed_country: country,
+        click_count: (urlData.click_count || 0) + 1,
+        last_accessed_at: new Date().toLocaleTimeString("en-US", {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        }),
+      })
+      .eq("short_url", short_url);
+
+    redirect(urlData.original_url);
   } catch (error: any) {
     if (error.digest?.startsWith("NEXT_REDIRECT")) {
       throw error;
