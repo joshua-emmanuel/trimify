@@ -1,6 +1,7 @@
 import { getUrl } from "@/utils/utils";
 import { redirect } from "next/navigation";
 import RedirectErrorPage from "./redirect-error";
+import { headers } from "next/headers";
 
 type UrlType = {
   original_url: string;
@@ -13,10 +14,18 @@ export default async function RedirectPage({
 }) {
   const { short_url } = params;
   const baseUrl = getUrl();
+  const headersList = headers();
 
   try {
     const response = await fetch(
-      `${baseUrl}/api/shorten?short_url=${short_url}`
+      `${baseUrl}/api/shorten?short_url=${short_url}`,
+      {
+        headers: {
+          "x-vercel-ip-city": headersList.get("x-vercel-ip-city") || "",
+          "x-vercel-ip-country": headersList.get("x-vercel-ip-country") || "",
+        },
+        cache: "no-store",
+      }
     );
 
     if (!response.ok) {
