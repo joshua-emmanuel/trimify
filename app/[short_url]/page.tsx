@@ -21,6 +21,7 @@ export default async function RedirectPage({
       `${baseUrl}/api/shorten?short_url=${short_url}`,
       {
         headers: {
+          "x-forwarded-for": headersList.get("x-forwarded-for") || "",
           "x-vercel-ip-city": headersList.get("x-vercel-ip-city") || "",
           "x-vercel-ip-country": headersList.get("x-vercel-ip-country") || "",
         },
