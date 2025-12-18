@@ -1,19 +1,19 @@
-'use client';
+"use client";
 
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { useToast } from '@/components/ui/use-toast';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { useRef, useState } from 'react';
-import ViewShortLink from '@/app/(homepage)/_components/view-short-link';
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { useToast } from "@/components/ui/use-toast";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useRef, useState } from "react";
+import ViewShortLink from "@/app/(homepage)/_components/view-short-link";
 
 const FormSchema = z.object({
   url: z
     .string()
     .regex(/^(https?:\/\/)?([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(\/[^\s]*)?$/, {
-      message: 'Please enter a valid link',
+      message: "Please enter a valid link",
     }),
 });
 
@@ -21,7 +21,7 @@ type IFormInput = z.infer<typeof FormSchema>;
 
 export default function ShortLinkForm({ shortenUrl }: { shortenUrl: any }) {
   const [loading, setLoading] = useState<boolean>(false);
-  const [shortUrl, setShortUrl] = useState<string>('');
+  const [shortUrl, setShortUrl] = useState<string>("");
   const formRef = useRef<HTMLFormElement>(null);
   const { toast } = useToast();
 
@@ -35,11 +35,11 @@ export default function ShortLinkForm({ shortenUrl }: { shortenUrl: any }) {
 
   const createShortLink = async (originalUrl: string) => {
     const { message, data } = await shortenUrl(originalUrl);
-    if (message === 'error') {
+    if (message === "error") {
       toast({
-        variant: 'error',
+        variant: "error",
         title: data,
-        description: 'Please try again later',
+        description: "Please try again later",
       });
       return;
     }
@@ -63,7 +63,7 @@ export default function ShortLinkForm({ shortenUrl }: { shortenUrl: any }) {
         onSubmit={handleSubmit(onSubmit)}
       >
         <Input
-          {...register('url')}
+          {...register("url")}
           type="text"
           name="url"
           id="url"
@@ -100,7 +100,7 @@ export default function ShortLinkForm({ shortenUrl }: { shortenUrl: any }) {
               <span>Trimming it...</span>
             </>
           ) : (
-            'Trim it'
+            "Trim it"
           )}
         </Button>
       </form>

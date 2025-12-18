@@ -1,18 +1,18 @@
-'use client';
+"use client";
 
-import { useEffect, useRef, useState } from 'react';
-import { createClient } from '@/utils/supabase/client';
-import { useParams } from 'next/navigation';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useEffect, useRef, useState } from "react";
+import { createClient } from "@/utils/supabase/client";
+import { useParams } from "next/navigation";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   CardSkeleton,
   LinkAnalyticsCardSkeletons,
   QRCodeSkeleton,
   QRCodeTextSkeleton,
-} from '@/components/ui/loading-skeletons';
-import { CalendarFold, MapPin, MousePointerClick } from 'lucide-react';
-import { QRCode } from 'react-qrcode-logo';
-import { Button } from '@/components/ui/button';
+} from "@/components/ui/loading-skeletons";
+import { CalendarFold, MapPin, MousePointerClick } from "lucide-react";
+import { QRCode } from "react-qrcode-logo";
+import { Button } from "@/components/ui/button";
 
 interface LinkDetailsProps {
   title?: string;
@@ -44,7 +44,7 @@ export default function DashboardAnalytics() {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
 
   const downloadQRCode = () => {
-    qrCodeRef.current?.download('png', `Short Url QRCode(${short_url})`);
+    qrCodeRef.current?.download("png", `Short Url QRCode(${short_url})`);
   };
 
   useEffect(() => {
@@ -53,9 +53,9 @@ export default function DashboardAnalytics() {
       const supabase = createClient();
 
       const { data, error } = await supabase
-        .from('links')
-        .select('*')
-        .eq('short_url', short_url)
+        .from("links")
+        .select("*")
+        .eq("short_url", short_url)
         .single();
 
       if (!error) {
@@ -68,6 +68,7 @@ export default function DashboardAnalytics() {
 
   useEffect(() => {
     async function getGeoLocation(ipAddress: any) {
+      console.log("ipAddress -", ipAddress);
       try {
         const response = await fetch(`https://ipapi.co/${ipAddress}/json/`);
         const data = await response.json();
@@ -138,7 +139,7 @@ export default function DashboardAnalytics() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-2xl font-bold break-words">
-                    {linkDetails?.last_accessed_at.split('at')[0]}
+                    {linkDetails?.last_accessed_at.split("at")[0]}
                   </p>
                 </CardContent>
               </Card>
