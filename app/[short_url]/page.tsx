@@ -18,7 +18,12 @@ export default async function RedirectPage({
 
   const ipAddress = headersList.get("x-forwarded-for");
   const city = headersList.get("x-vercel-ip-city");
-  const country = headersList.get("x-vercel-ip-country");
+  const countryCode = headersList.get("x-vercel-ip-country");
+  let country = countryCode;
+  if (countryCode?.length === 2) {
+    const regionNames = new Intl.DisplayNames(["en"], { type: "region" });
+    country = regionNames.of(countryCode) || countryCode;
+  }
 
   const supabase = createClient();
 
