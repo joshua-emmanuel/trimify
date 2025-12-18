@@ -24,6 +24,8 @@ interface LinkDetailsProps {
   click_count?: string;
   last_accessed_at?: string;
   last_accessed_ip?: string;
+  last_accessed_city?: string;
+  last_accessed_country?: string;
 }
 
 interface LocationProps {
@@ -80,6 +82,9 @@ export default function DashboardAnalytics() {
     }
 
     getGeoLocation(linkDetails?.last_accessed_ip);
+
+    console.log("Last accessed city", linkDetails?.last_accessed_city);
+    console.log("Last accessed country", linkDetails?.last_accessed_country);
   }, [linkDetails]);
 
   useEffect(() => {

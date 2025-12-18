@@ -2,13 +2,20 @@ import { nanoid } from "nanoid";
 import { createClient } from "@/utils/supabase/server";
 import { ensureProtocol } from "@/utils/utils";
 
-async function logLinkVisit(urlData: any, ipAddress: any) {
+async function logLinkVisit(
+  urlData: any,
+  ipAddress: string | null,
+  city: string | null,
+  country: string | null
+) {
   const supabase = createClient();
 
   await supabase
     .from("links")
     .update({
       last_accessed_ip: ipAddress,
+      last_accessed_city: city,
+      last_accessed_country: country,
       click_count: urlData.click_count + 1,
       last_accessed_at: new Date().toLocaleTimeString("en-US", {
         day: "numeric",
@@ -28,6 +35,9 @@ export async function GET(request: Request) {
     request.headers.get("x-forwarded-for") ||
     request.headers.get("remote-addr");
 
+  const city = request.headers.get("x-vercel-ip-city");
+  const country = request.headers.get("x-vercel-ip-country");
+
   const { data: urlData, error } = await supabase
     .from("links")
     .select("*")
@@ -40,7 +50,7 @@ export async function GET(request: Request) {
     });
   }
 
-  await logLinkVisit(urlData, ipAddress);
+  await logLinkVisit(urlData, ipAddress, city, country);
 
   return new Response(
     JSON.stringify({
