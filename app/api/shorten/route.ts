@@ -4,7 +4,6 @@ import { ensureProtocol } from "@/utils/utils";
 
 async function logLinkVisit(
   urlData: any,
-  ipAddress: string | null,
   city: string | null,
   country: string | null
 ) {
@@ -13,10 +12,9 @@ async function logLinkVisit(
   await supabase
     .from("links")
     .update({
-      last_accessed_ip: ipAddress,
       last_accessed_city: city,
       last_accessed_country: country,
-      click_count: urlData.click_count + 1,
+      click_count: (urlData.click_count || 0) + 1,
       last_accessed_at: new Date().toLocaleTimeString("en-US", {
         day: "numeric",
         month: "long",
@@ -30,10 +28,6 @@ export async function GET(request: Request) {
   const supabase = createClient();
   const { searchParams } = new URL(request.url);
   const short_url = searchParams.get("short_url");
-
-  const ipAddress =
-    request.headers.get("x-forwarded-for") ||
-    request.headers.get("remote-addr");
 
   const city = request.headers.get("x-vercel-ip-city");
   const country = request.headers.get("x-vercel-ip-country");
@@ -50,7 +44,7 @@ export async function GET(request: Request) {
     });
   }
 
-  await logLinkVisit(urlData, ipAddress, city, country);
+  await logLinkVisit(urlData, city, country);
 
   return new Response(
     JSON.stringify({

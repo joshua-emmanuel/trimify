@@ -1,12 +1,7 @@
-import { getUrl } from "@/utils/utils";
 import { redirect } from "next/navigation";
 import RedirectErrorPage from "./redirect-error";
 import { headers } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
-
-type UrlType = {
-  original_url: string;
-};
 
 export default async function RedirectPage({
   params,
@@ -16,9 +11,8 @@ export default async function RedirectPage({
   const { short_url } = params;
   const headersList = headers();
 
-  const ipAddress = headersList.get("x-forwarded-for");
-  const city = headersList.get("x-vercel-ip-city");
-  const countryCode = headersList.get("x-vercel-ip-country");
+  const city = headersList.get("x-vercel-ip-city") || "Unknown";
+  const countryCode = headersList.get("x-vercel-ip-country") || "Unknown";
   let country = countryCode;
   if (countryCode?.length === 2) {
     const regionNames = new Intl.DisplayNames(["en"], { type: "region" });
@@ -41,7 +35,6 @@ export default async function RedirectPage({
     await supabase
       .from("links")
       .update({
-        last_accessed_ip: ipAddress,
         last_accessed_city: city,
         last_accessed_country: country,
         click_count: (urlData.click_count || 0) + 1,

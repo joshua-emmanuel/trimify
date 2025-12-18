@@ -23,14 +23,8 @@ interface LinkDetailsProps {
   user_id?: string;
   click_count?: string;
   last_accessed_at?: string;
-  last_accessed_ip?: string;
   last_accessed_city?: string;
   last_accessed_country?: string;
-}
-
-interface LocationProps {
-  country_name?: string;
-  city?: string;
 }
 
 export default function DashboardAnalytics() {
@@ -38,7 +32,6 @@ export default function DashboardAnalytics() {
   const { short_url } = params;
 
   const [linkDetails, setLinkDetails] = useState<LinkDetailsProps | null>(null);
-  const [location, setLocation] = useState<LocationProps | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   const qrCodeRef = useRef<QRCode>(null);
@@ -67,31 +60,6 @@ export default function DashboardAnalytics() {
 
     fetchLinks();
   }, [short_url]);
-
-  useEffect(() => {
-    async function getGeoLocation(ipAddress: any) {
-      console.log("ipAddress -", ipAddress);
-      try {
-        const response = await fetch(`https://ipapi.co/${ipAddress}/json/`);
-        const data = await response.json();
-        setLocation(data);
-      } catch (error) {
-        setLoading(false);
-        return null;
-      }
-    }
-
-    getGeoLocation(linkDetails?.last_accessed_ip);
-
-    console.log("Last accessed city", linkDetails?.last_accessed_city);
-    console.log("Last accessed country", linkDetails?.last_accessed_country);
-  }, [linkDetails]);
-
-  useEffect(() => {
-    if (location) {
-      setLoading(false);
-    }
-  }, [location]);
 
   return (
     <div>
@@ -149,7 +117,7 @@ export default function DashboardAnalytics() {
                 </CardContent>
               </Card>
             )}
-            {location?.city && (
+            {linkDetails?.last_accessed_city && (
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
                   <CardTitle className="text-sm font-medium text-slate-600">
@@ -159,12 +127,12 @@ export default function DashboardAnalytics() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-2xl font-bold break-words">
-                    {location?.city}
+                    {linkDetails?.last_accessed_city}
                   </p>
                 </CardContent>
               </Card>
             )}
-            {location?.country_name && (
+            {linkDetails?.last_accessed_country && (
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
                   <CardTitle className="text-sm font-medium text-slate-600">
@@ -174,7 +142,7 @@ export default function DashboardAnalytics() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-2xl font-bold break-words">
-                    {location?.country_name}
+                    {linkDetails?.last_accessed_country}
                   </p>
                 </CardContent>
               </Card>
